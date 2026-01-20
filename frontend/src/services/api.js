@@ -21,13 +21,34 @@ const parseBody = (text) => {
   }
 }
 
-const request = async (endpoint, { headers, ...options } = {}) => {
+const shouldAttachJsonHeader = (body, headers) => {
+  if (!body) {
+    return false
+  }
+  if (headers && headers["Content-Type"]) {
+    return false
+  }
+  return !(body instanceof FormData)
+}
+
+const request = async (endpoint, { headers = {}, token, body, ...options } = {}) => {
+  const finalHeaders = {
+    Accept: "application/json",
+    ...headers,
+  }
+
+  if (shouldAttachJsonHeader(body, headers)) {
+    finalHeaders["Content-Type"] = "application/json"
+  }
+
+  if (token) {
+    finalHeaders.Authorization = `Token ${token}`
+  }
+
   const response = await fetch(`${API_ROOT}${endpoint}`, {
     credentials: "include",
-    headers: {
-      Accept: "application/json",
-      ...headers,
-    },
+    headers: finalHeaders,
+    body,
     ...options,
   })
 
@@ -49,4 +70,20 @@ const request = async (endpoint, { headers, ...options } = {}) => {
 export const movieApi = {
   list: (signal) => request("/movies/", { signal }),
   retrieve: (id, signal) => request(`/movies/${id}/`, { signal }),
+}
+
+export const authApi = {
+  login: (credentials, signal) =>
+    request("/auth/login/", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+      signal,
+    }),
+  register: (payload, signal) =>
+    request("/auth/register/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      signal,
+    }),
+  me: (token, signal) => request("/auth/me/", { method: "GET", token, signal }),
 }

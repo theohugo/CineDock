@@ -5,6 +5,7 @@ set -o nounset
 
 python manage.py migrate --noinput
 python manage.py seed_movies
+python manage.py seed_users
 
 if [[ "${DJANGO_COLLECTSTATIC:-0}" == "1" ]]; then
     python manage.py collectstatic --noinput

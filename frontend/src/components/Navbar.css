@@ -20,21 +20,37 @@ nav a {
   color: #ffffff;
 }
 
-/* Conteneur des boutons */
-nav div:last-child {
+.navbar-actions {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 16px;
 }
 
-/* Boutons Connexion / Inscription */
-nav div:last-child a {
+.navbar-button {
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 14px;
   transition: background-color 0.2s ease;
 }
 
-/* Hover boutons */
-nav div:last-child a:hover {
+.navbar-button:hover {
   background-color: #1e293b;
+}
+
+.navbar-user {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.navbar-logout {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #ef4444;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-logout:hover {
+  background-color: #dc2626;
 }

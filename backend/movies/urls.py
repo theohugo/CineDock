@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import LoginView, MeView, MovieViewSet, RegisterView, health
+from .views import MovieViewSet, health
 
 
 # English comments only
@@ -10,8 +10,5 @@ router.register(r"movies", MovieViewSet, basename="movie")
 
 urlpatterns = [
     path("health/", health),
-    path("auth/register/", RegisterView.as_view(), name="auth-register"),
-    path("auth/login/", LoginView.as_view(), name="auth-login"),
-    path("auth/me/", MeView.as_view(), name="auth-me"),
     path("", include(router.urls)),
 ]

@@ -1,33 +1,27 @@
 from django.contrib.auth import authenticate
-from rest_framework import permissions, status, viewsets
+from drf_spectacular.utils import extend_schema
+from rest_framework import permissions, status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Movie
 from .serializers import (
+    AuthResponseSerializer,
     LoginSerializer,
-    MovieSerializer,
     RegisterSerializer,
+    UserResponseSerializer,
     UserSerializer,
 )
 
 
-@api_view(["GET"])
-def health(request):
-    return Response({"status": "ok"})
-
-
-class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all().order_by("-created_at")
-    serializer_class = MovieSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
 
+    @extend_schema(
+        request=RegisterSerializer,
+        responses={status.HTTP_201_CREATED: AuthResponseSerializer},
+    )
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -41,7 +35,9 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
+    serializer_class = LoginSerializer
 
+    @extend_schema(request=LoginSerializer, responses=AuthResponseSerializer)
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -59,10 +55,13 @@ class LoginView(APIView):
 
 class MeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
 
+    @extend_schema(responses=UserResponseSerializer)
     def get(self, request):
         return Response({"user": UserSerializer(request.user).data})
 
+    @extend_schema(request=UserSerializer, responses=UserResponseSerializer)
     def patch(self, request):
         serializer = UserSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)

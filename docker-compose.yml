@@ -1,6 +1,9 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: cinedock
       POSTGRES_USER: cinedock
@@ -9,24 +12,30 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinedock"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+    restart: unless-stopped
     environment:
-      DJANGO_SECRET_KEY: "dev-secret"
-      DJANGO_DEBUG: "1"
-      DATABASE_URL: "postgres://cinedock:cinedock@db:5432/cinedock"
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-dev-secret}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-1}
+      DATABASE_URL: postgres://cinedock:cinedock@db:5432/cinedock
+      DJANGO_COLLECTSTATIC: ${DJANGO_COLLECTSTATIC:-0}
     volumes:
       - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: >
-      bash -lc "
-      python manage.py migrate &&
       gunicorn config.wsgi:application --bind 0.0.0.0:8000 --reload
-      "
 
   # frontend:
   #   build: ./frontend

@@ -79,6 +79,14 @@ export const movieApi = {
       signal,
     })
   },
+  listReviews: (id, signal) => request(`/movies/${id}/reviews/`, { signal }),
+  submitReview: (id, payload, token, signal) =>
+    request(`/movies/${id}/reviews/`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      token,
+      signal,
+    }),
 }
 
 export const authApi = {

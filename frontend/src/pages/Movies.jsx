@@ -72,6 +72,7 @@ function Movies() {
                 title={movie.name}
                 image={movie.image}
                 description={movie.description}
+                rating={movie.average_rating}
               />
             </Link>
           ))}

@@ -56,6 +56,12 @@
   color: #cbd5f5;
 }
 
+.movie-rating-summary {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #facc15;
+}
+
 .movie-edit-section {
   margin-top: 32px;
 }
@@ -140,6 +146,120 @@
 
 .movie-edit-message.success {
   color: #4ade80;
+}
+
+.reviews-section {
+  margin-top: 48px;
+  padding: 32px;
+  border-radius: 16px;
+  background-color: #0f172a;
+  box-shadow: 0 24px 48px rgba(2, 6, 23, 0.6);
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-form label {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.review-form input,
+.review-form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+  background-color: #020617;
+  color: #f8fafc;
+}
+
+.review-form button {
+  align-self: flex-end;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #020617;
+  font-weight: 600;
+}
+
+.review-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.review-form-message {
+  font-size: 14px;
+}
+
+.review-form-message.error {
+  color: #f87171;
+}
+
+.review-form-message.success {
+  color: #4ade80;
+}
+
+.review-login-hint {
+  margin-bottom: 16px;
+  color: #94a3b8;
+}
+
+.reviews-list {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #020617;
+  border: 1px solid #1e293b;
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-author {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.review-rating {
+  color: #facc15;
+  font-weight: 600;
+}
+
+.review-comment {
+  margin: 8px 0;
+  color: #cbd5f5;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #94a3b8;
 }
 
 /* Note */

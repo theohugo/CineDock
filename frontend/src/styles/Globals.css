@@ -7,9 +7,11 @@
 
 /* Police globale */
 body {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  background-color: #020617; /* fond très sombre cinéma */
-  color: #e5e7eb;           /* texte clair */
+  font-family: "Space Grotesk", "Inter", "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at 20% 20%, rgba(15, 118, 255, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(248, 113, 113, 0.18), transparent 45%),
+    linear-gradient(135deg, #020617, #030712 60%, #020617);
+  color: #e5e7eb;
   line-height: 1.5;
 }
 
@@ -27,18 +29,10 @@ a {
   margin: 0 auto;
 }
 
-.main-container {
-  border: 2px solid red;
-}
-
-.movies-grid {
-  border: 2px solid blue;
-}
-
 /* Titres */
 h1, h2, h3 {
   font-weight: 600;
-  color: #f9fafb;
+  color: #f8fafc;
 }
 
 /* Paragraphes */

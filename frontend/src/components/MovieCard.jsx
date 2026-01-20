@@ -36,7 +36,10 @@ function MovieCard({ title, image, description, rating }) {
         <p className="movie-card-description">{formattedDescription}</p>
 
         {normalizedRating !== null && (
-          <p className="movie-card-rating">⭐ {normalizedRating.toFixed(1)} / 5</p>
+          <p className="movie-card-rating">
+            <span>⭐ {normalizedRating.toFixed(1)}</span>
+            <span className="movie-card-rating-badge">Note</span>
+          </p>
         )}
       </div>
     </div>

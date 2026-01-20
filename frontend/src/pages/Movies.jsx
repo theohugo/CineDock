@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
+
 import MovieCard from "../components/MovieCard"
 import { movieApi } from "../services/api"
 import "./Movies.css"
@@ -41,12 +42,55 @@ function Movies() {
     }
   }, [])
 
+  const [query, setQuery] = useState("")
+  const [sortBy, setSortBy] = useState("popular")
+
+  const filteredMovies = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase()
+    let filtered = movies
+
+    if (normalizedQuery.length > 0) {
+      filtered = filtered.filter((movie) =>
+        movie.name.toLowerCase().includes(normalizedQuery)
+      )
+    }
+
+    const sortable = [...filtered]
+    if (sortBy === "rating") {
+      sortable.sort((a, b) => (b.average_rating || 0) - (a.average_rating || 0))
+    } else if (sortBy === "recent") {
+      sortable.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
+    }
+
+    return sortable
+  }, [movies, query, sortBy])
+
   return (
-    <div className="main-container">
-      <section>
-        <h1>Tous les films</h1>
-        <p>Explorez l’ensemble des films disponibles sur Film Review.</p>
-      </section>
+    <div className="movies-page">
+      <header className="movies-hero">
+        <div>
+          <p className="section-kicker">Catalogue complet</p>
+          <h1>Découvrez chaque film, chaque critique</h1>
+          <p>Utilisez la recherche et triez par popularité ou date d’ajout.</p>
+        </div>
+
+        <div className="movies-filters">
+          <input
+            type="search"
+            placeholder="Rechercher un film..."
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+
+          <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="popular">Populaires</option>
+            <option value="rating">Mieux notés</option>
+            <option value="recent">Ajout récent</option>
+          </select>
+        </div>
+      </header>
 
       <section className="movies-section">
         {isLoading && <p className="movies-feedback">Chargement des films…</p>}
@@ -57,12 +101,12 @@ function Movies() {
           </p>
         )}
 
-        {!isLoading && !error && movies.length === 0 && (
+        {!isLoading && !error && filteredMovies.length === 0 && (
           <p className="movies-feedback">Aucun film n’est disponible pour le moment.</p>
         )}
 
         <div className="movies-grid">
-          {movies.map((movie) => (
+          {filteredMovies.map((movie) => (
             <Link
               to={`/movies/${movie.id}`}
               key={movie.id}

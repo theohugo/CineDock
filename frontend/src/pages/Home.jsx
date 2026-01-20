@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+
 import MovieCard from "../components/MovieCard"
 import { movieApi } from "../services/api"
 import "./Home.css"
@@ -38,25 +39,53 @@ function Home() {
     }
   }, [])
 
-  const featuredMovies = movies.slice(0, 4)
+  const featuredMovies = movies.slice(0, 6)
 
   return (
-    <div className="main-container">
-      {/* Présentation */}
-      <section>
-        <h1>Bienvenue sur Film Review</h1>
-        <p>
-          Découvrez des films, consultez des avis et partagez votre opinion avec d’autres passionnés de cinéma.
-        </p>
+    <div className="home-page">
+      <section className="hero">
+        <div className="hero-content">
+          <p className="hero-kicker">Ciné Dock • Catalogue & Avis</p>
+          <h1>
+            Explorez, notez et partagez votre passion pour le <span>cinéma</span>.
+          </h1>
+          <p>
+            Une selection constamment mise à jour, des critiques authentiques et une expérience pensée pour les cinéphiles.
+          </p>
+
+          <div className="hero-actions">
+            <Link to="/movies" className="hero-primary">
+              Explorer le catalogue
+            </Link>
+            <button type="button" className="hero-secondary">
+              Voir les tendances
+            </button>
+          </div>
+        </div>
+
+        <div className="hero-highlight">
+          <div className="hero-highlight-card">
+            <p className="hero-highlight-label">Avis partagés</p>
+            <h3>4.8 / 5</h3>
+            <p>Basé sur les notes des passionnés CineDock</p>
+          </div>
+          <div className="hero-highlight-card">
+            <p className="hero-highlight-label">Films disponibles</p>
+            <h3>{movies.length || "—"}</h3>
+            <p>Ajouts hebdomadaires & coups de cœur</p>
+          </div>
+        </div>
       </section>
 
-      {/* Films populaires */}
-      <section className="movies-section">
-        <div className="movies-header">
-          <h2>Films populaires</h2>
+      <section className="spotlight">
+        <div className="section-heading">
+          <div>
+            <p className="section-kicker">Sélection des critiques</p>
+            <h2>Films populaires</h2>
+          </div>
 
           <Link to="/movies" className="see-all-link">
-            Voir tous les films →
+            Voir toute la sélection →
           </Link>
         </div>
 
@@ -74,7 +103,7 @@ function Home() {
           <p className="movies-feedback">Aucun film n’est disponible pour le moment.</p>
         )}
 
-        <div className="movies-grid">
+        <div className="spotlight-grid">
           {featuredMovies.map((movie) => (
             <Link
               to={`/movies/${movie.id}`}

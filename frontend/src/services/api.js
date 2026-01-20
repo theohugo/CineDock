@@ -70,6 +70,15 @@ const request = async (endpoint, { headers = {}, token, body, ...options } = {})
 export const movieApi = {
   list: (signal) => request("/movies/", { signal }),
   retrieve: (id, signal) => request(`/movies/${id}/`, { signal }),
+  update: (id, payload, token, signal) => {
+    const body = payload instanceof FormData ? payload : JSON.stringify(payload)
+    return request(`/movies/${id}/`, {
+      method: "PATCH",
+      body,
+      token,
+      signal,
+    })
+  },
 }
 
 export const authApi = {

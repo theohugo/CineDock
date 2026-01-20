@@ -56,6 +56,92 @@
   color: #cbd5f5;
 }
 
+.movie-edit-section {
+  margin-top: 32px;
+}
+
+.movie-edit-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  background-color: #38bdf8;
+  color: #020617;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.movie-edit-button:hover {
+  transform: translateY(-2px);
+}
+
+.movie-edit-form {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.movie-edit-form label {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.movie-edit-form input,
+.movie-edit-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+  background-color: #020617;
+  color: #f8fafc;
+}
+
+.movie-edit-form input[type="file"] {
+  padding: 10px;
+  background-color: transparent;
+}
+
+.movie-edit-form textarea {
+  resize: vertical;
+}
+
+.movie-edit-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.movie-edit-cancel,
+.movie-edit-submit {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.movie-edit-cancel {
+  background-color: transparent;
+  border: 1px solid #334155;
+  color: #cbd5f5;
+}
+
+.movie-edit-submit {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #020617;
+}
+
+.movie-edit-message {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.movie-edit-message.error {
+  color: #f87171;
+}
+
+.movie-edit-message.success {
+  color: #4ade80;
+}
+
 /* Note */
 .movie-detail-rating {
   margin-top: 20px;

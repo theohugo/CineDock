@@ -22,17 +22,6 @@ docker compose exec backend python manage.py createsuperuser
 
 The backend will be available on `http://localhost:8000`, the Vite frontend on `http://localhost:5173`.
 
-## Manual Backend Setup
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser  # optional
-python manage.py runserver 0.0.0.0:8000
-```
 
 Configure `DATABASE_URL` if you want to point to PostgreSQL; SQLite is used by default.
 

@@ -9,11 +9,6 @@ Backend + frontend boilerplate for managing a movie catalog with authenticated u
 - drf-spectacular for automatic API documentation
 - Docker (backend + frontend services)
 
-## Prerequisites
-
-- Python 3.11+
-- Node.js 18+ (for the frontend)
-- Docker / Docker Compose (recommended path)
 
 ## Quick Start (Docker)
 
@@ -55,8 +50,6 @@ docker compose exec backend python manage.py test -v 2
 
 Automatic OpenAPI schema + interactive docs are exposed once the backend is running:
 
-- Raw schema: `GET http://localhost:8000/api/schema/`
-- Swagger UI: `http://localhost:8000/api/docs/`
 - ReDoc: `http://localhost:8000/api/redoc/`
 
 ## Useful Backend Commands
@@ -73,10 +66,3 @@ python manage.py migrate
 python manage.py collectstatic
 ```
 
-## Directory Highlights
-
-- `backend/movies/` – Movie catalog models, serializers, views, tests
-- `backend/users/` – Auth endpoints (register/login/me)
-- `frontend/` – Vite/React client (placeholder)
-
-Feel free to adapt this README as the project evolves (e.g., deployment, CI/CD, environment variables).

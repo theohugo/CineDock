@@ -10,6 +10,21 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.movie-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.movies-feedback {
+  margin: 16px 0;
+  color: #94a3b8;
+}
+
+.movies-feedback.error {
+  color: #f87171;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
   .movies-grid {

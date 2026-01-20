@@ -1,33 +1,44 @@
-import react from 'react'
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import MovieCard from "../components/MovieCard"
-import './Home.css'
+import { movieApi } from "../services/api"
+import "./Home.css"
 
 function Home() {
-  const movies = [
-    {
-      id: 1,
-      title: "Inception",
-      image: "https://m.media-amazon.com/images/I/51zUbui+gbL._AC_.jpg",
-      description: "Un voleur spécialisé dans l’extraction de rêves se voit confier une mission impossible.",
-      rating: 4.8
-    },
-    {
-      id: 2,
-      title: "Interstellar",
-      image: "https://fr.web.img5.acsta.net/c_310_420/pictures/14/09/24/12/08/158828.jpg",
-      description: "Un voyage à travers l’espace et le temps pour sauver l’humanité.",
-      rating: 4.9
-    },
-    {
-      id: 3,
-      title: "The Dark Knight",
-      image: "https://fr.web.img2.acsta.net/medias/nmedia/18/63/97/89/18949761.jpg",
-      description: "Batman affronte le Joker, un criminel prêt à plonger Gotham dans le chaos.",
-      rating: 4.7
-    },
-    
-  ]
+  const [movies, setMovies] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    let isMounted = true
+
+    const fetchMovies = async () => {
+      try {
+        const data = await movieApi.list(controller.signal)
+        if (isMounted) {
+          setMovies(Array.isArray(data) ? data : [])
+        }
+      } catch (err) {
+        if (err.name !== "AbortError" && isMounted) {
+          setError(err.message)
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    fetchMovies()
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
+  }, [])
+
+  const featuredMovies = movies.slice(0, 4)
 
   return (
     <div className="main-container">
@@ -49,15 +60,33 @@ function Home() {
           </Link>
         </div>
 
+        {isLoading && (
+          <p className="movies-feedback">Chargement des films…</p>
+        )}
+
+        {error && !isLoading && (
+          <p className="movies-feedback error">
+            Impossible de charger les films : {error}
+          </p>
+        )}
+
+        {!isLoading && !error && featuredMovies.length === 0 && (
+          <p className="movies-feedback">Aucun film n’est disponible pour le moment.</p>
+        )}
+
         <div className="movies-grid">
-          {movies.map(movie => (
-            <MovieCard
+          {featuredMovies.map((movie) => (
+            <Link
+              to={`/movies/${movie.id}`}
               key={movie.id}
-              title={movie.title}
-              image={movie.image}
-              description={movie.description}
-              rating={movie.rating}
-            />
+              className="movie-card-link"
+            >
+              <MovieCard
+                title={movie.name}
+                image={movie.image}
+                description={movie.description}
+              />
+            </Link>
           ))}
         </div>
       </section>

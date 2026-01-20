@@ -30,6 +30,19 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
+.movie-detail-image.placeholder {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f172a;
+  color: #94a3b8;
+  padding: 0 16px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* Contenu texte */
 .movie-detail-content {
   max-width: 600px;

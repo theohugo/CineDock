@@ -23,7 +23,8 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("api.urls")),
+    path("api/", include("movies.urls")),
+    path("api/", include("users.urls")),
 ]
 
 

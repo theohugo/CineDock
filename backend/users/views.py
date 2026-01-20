@@ -1,28 +1,10 @@
 from django.contrib.auth import authenticate
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Movie
-from .serializers import (
-    LoginSerializer,
-    MovieSerializer,
-    RegisterSerializer,
-    UserSerializer,
-)
-
-
-@api_view(["GET"])
-def health(request):
-    return Response({"status": "ok"})
-
-
-class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all().order_by("-created_at")
-    serializer_class = MovieSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
 
 
 class RegisterView(APIView):

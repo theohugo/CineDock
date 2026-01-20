@@ -17,6 +17,9 @@ Movie catalog backend (Django REST Framework) + placeholder Vite frontend, both 
 ## Docker Workflow
 
 ```bash
+# 0. Configure environment
+cp .env.example .env  # then edit values as needed
+
 # 1. Build images (installs Python deps, prepares DB image)
 docker compose build
 
@@ -30,7 +33,7 @@ docker compose logs -f backend
 docker compose exec backend python manage.py createsuperuser
 ```
 
-The backend listens on `http://localhost:8000` and connects to the `db` container through `DATABASE_URL=postgres://cinedock:cinedock@db:5432/cinedock`. The PostgreSQL container exposes `5432` for optional local access.
+The backend listens on `http://localhost:8000` and connects to the `db` container through the `DATABASE_URL` defined in `.env`. The PostgreSQL container exposes `5432` for optional local access.
 
 ### Useful Environment Overrides
 

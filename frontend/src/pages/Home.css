@@ -1,0 +1,55 @@
+/* ===== Section films ===== */
+.movies-section {
+  margin-top: 40px;
+}
+
+/* Header de la section films */
+.movies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Bouton "Voir tous les films" */
+.see-all-link {
+  padding: 8px 16px;
+  background-color: #38bdf8; /* bleu clair */
+  color: #020617;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover bouton */
+.see-all-link:hover {
+  background-color: #7dd3fc;
+  transform: translateY(-2px);
+}
+
+/* ===== Grille de films ===== */
+.movies-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .movies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .movies-grid {
+    grid-template-columns: 1fr;
+  }
+}

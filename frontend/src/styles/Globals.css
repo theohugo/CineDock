@@ -1,0 +1,74 @@
+/* Reset basique */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Police globale */
+body {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background-color: #020617; /* fond très sombre cinéma */
+  color: #e5e7eb;           /* texte clair */
+  line-height: 1.5;
+}
+
+/* Liens globaux */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Conteneur global */
+.main-container {
+  padding: 24px 32px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-container {
+  border: 2px solid red;
+}
+
+.movies-grid {
+  border: 2px solid blue;
+}
+
+/* Titres */
+h1, h2, h3 {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+/* Paragraphes */
+p {
+  color: #cbd5f5;
+  font-size: 14px;
+}
+
+/* Boutons génériques */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+/* Scrollbar (optionnel, moderne) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}

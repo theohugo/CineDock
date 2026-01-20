@@ -1,0 +1,30 @@
+/* Section films */
+.movies-section {
+  margin-top: 40px;
+}
+
+/* Grille de films */
+.movies-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .movies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .movies-grid {
+    grid-template-columns: 1fr;
+  }
+}

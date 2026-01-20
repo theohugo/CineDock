@@ -1,0 +1,40 @@
+/* Navbar container */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #0f172a; /* bleu nuit / cinéma */
+}
+
+/* Titre de l'app */
+nav h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+/* Supprime le style des liens */
+nav a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* Conteneur des boutons */
+nav div:last-child {
+  display: flex;
+  gap: 20px;
+}
+
+/* Boutons Connexion / Inscription */
+nav div:last-child a {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover boutons */
+nav div:last-child a:hover {
+  background-color: #1e293b;
+}

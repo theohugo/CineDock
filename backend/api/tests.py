@@ -1,9 +1,36 @@
 from rest_framework.test import APITestCase
-from django.urls import reverse
 
 
-class HealthTest(APITestCase):
-    def test_health_endpoint(self):
-        response = self.client.get("/api/health/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["status"], "ok")
+# English comments only
+class MovieApiTest(APITestCase):
+    def test_movie_crud(self):
+        # Create
+        res = self.client.post(
+            "/api/movies/",
+            {"name": "Interstellar", "description": "Space"},
+            format="json",
+        )
+        self.assertEqual(res.status_code, 201)
+        movie_id = res.data["id"]
+
+        # List
+        res = self.client.get("/api/movies/")
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(len(res.data) >= 1)
+
+        # Retrieve
+        res = self.client.get(f"/api/movies/{movie_id}/")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.data["name"], "Interstellar")
+
+        # Update
+        res = self.client.patch(
+            f"/api/movies/{movie_id}/",
+            {"name": "Interstellar (Updated)"},
+            format="json",
+        )
+        self.assertEqual(res.status_code, 200)
+
+        # Delete
+        res = self.client.delete(f"/api/movies/{movie_id}/")
+        self.assertEqual(res.status_code, 204)

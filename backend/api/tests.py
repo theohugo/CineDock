@@ -2,7 +2,6 @@ from rest_framework.test import APITestCase
 from django.urls import reverse
 
 
-# English comments only
 class HealthTest(APITestCase):
     def test_health_endpoint(self):
         response = self.client.get("/api/health/")

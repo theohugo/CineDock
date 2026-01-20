@@ -79,7 +79,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 
-# English comments only
 db_url = os.getenv("DATABASE_URL", "")
 if db_url:
     p = urlparse(db_url)

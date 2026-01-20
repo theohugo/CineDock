@@ -36,10 +36,8 @@ RUN pip install --no-cache-dir /wheels/* \
 
 COPY . .
 
-RUN chmod +x entrypoint.sh && chown -R django:django /app
+RUN chown -R django:django /app
 
 USER django
 
-ENTRYPOINT ["./entrypoint.sh"]
-
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py seed_movies && python manage.py seed_users && exec gunicorn config.wsgi:application --bind 0.0.0.0:8000"]

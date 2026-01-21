@@ -1,0 +1,50 @@
+{
+  # Local development - no HTTPS
+  auto_https off
+}
+
+# Local development configuration
+cinedock {
+  # Frontend
+  handle /api* {
+    # API requests go to backend
+    reverse_proxy backend:8000
+  }
+
+  handle {
+    # Everything else goes to frontend
+    reverse_proxy frontend:5173
+  }
+}
+
+# Also support localhost for testing
+localhost:80 {
+  # Frontend
+  handle /api* {
+    # API requests go to backend
+    reverse_proxy backend:8000
+  }
+
+  handle {
+    # Everything else goes to frontend
+    reverse_proxy frontend:5173
+  }
+}
+
+# Production configuration (commented out for local development)
+# Replace example.com with your actual domain
+# example.com {
+#   # Frontend
+#   handle /api* {
+#     # API requests go to backend
+#     reverse_proxy backend:8000
+#   }
+#
+#   handle {
+#     # Everything else goes to frontend
+#     reverse_proxy frontend:5173
+#   }
+#
+#   # Enable HTTPS with Let's Encrypt
+#   encode gzip
+# }

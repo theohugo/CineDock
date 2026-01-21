@@ -1,4 +1,4 @@
-# Titre du Projet (ex: My Super DevOps Stack)
+# CineDOck
 
 > **⚠️ MEMBRES DU GROUPE :**
 > - **RAGUIN Hugo** 

@@ -29,11 +29,6 @@ Le diagramme PlantUML décrit l’enchaînement complet des containers : Cloudfl
 
 ![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/theohugo/CineDock/master/architecture.puml)
 
-*(Note aux étudiants : Pour que l'image ci-dessus s'affiche :*
-1. *Créez un fichier `architecture.puml` à la racine de votre repo.*
-2. *Mettez votre code PlantUML dedans (le nôtre décrit les services `caddy`, `frontend`, `backend`, `db`).*
-3. *Vérifiez que l’URL pointe bien vers `https://raw.githubusercontent.com/theohugo/CineDock/master/architecture.puml` (branche par défaut `master`).*
-4. *Assurez-vous que votre repo est Public.)*
 
 ### Description des composants
 - **Caddy (reverse proxy)** : termine TLS (certificats auto gérés) et route `/` vers le frontend React, `/api` vers Django. Les données de config/certifs sont conservées dans `caddy_data` et `caddy_config`.

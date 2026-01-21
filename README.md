@@ -96,8 +96,8 @@ Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Doc
 * **Apprentissage :** Nous avons systématiquement repris les suggestions IA pour les reformuler ou les tester. Cela nous a permis de vérifier la configuration réseau Docker, de comprendre comment DRF Spectacular expose Swagger/Redoc et de retenir les bonnes pratiques de seed custom dans Django.
 
 ## 5. Difficultés rencontrées & Solutions
-* *Problème 1 :* La route d’authentification `/api/auth/login/` renvoyait systématiquement une erreur car les tokens DRF n’étaient pas générés en local.
-* *Solution :* Exécution des commandes `python manage.py migrate` puis `python manage.py seed_users` dans le conteneur backend pour créer les comptes démo et leurs tokens, ce qui a débloqué la connexion utilisateur.
+* *Problème 1 :* La route d’authentification `/api/auth/login/` renvoyait systématiquement une erreur car les tokens DRF n’étaient pas générés en local. Pourtant, le Dockerfile backend lance bien `manage.py seed_users` au démarrage.
+* *Solution :* Forcer manuellement, lors du premier run, `python manage.py migrate` puis `python manage.py seed_users` dans le conteneur backend afin d’aligner l’état local avec l’entrypoint. Ensuite, les seeders automatiques suffisent et l’authentification fonctionne.
 
 * *Problème 2 :* En lançant frontend et backend intégralement dans Docker, nous perdions le hot reload côté React.
-* *Solution :* Nous avons conservé le backend (Django + Postgres + Caddy) dans Docker mais lancé le frontend localement via `npm install && npm run dev`. Cela permet de garder les API accessibles via Caddy tout en bénéficiant du hot reload Vite.
+* *Solution :* Nous avons conservé le backend (Django + Postgres + Caddy) dans Docker mais lancé le frontend localement via `npm install && npm run dev` pendant la phase de développement uniquement. Ainsi, on garde l’accès API via Caddy tout en profitant du hot reload Vite, tandis qu’en production le frontend reste conteneurisé.

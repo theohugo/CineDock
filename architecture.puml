@@ -1,0 +1,47 @@
+@startuml
+hide stereotype
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam defaultTextAlignment center
+
+title Infrastructure CineDock
+
+actor "Utilisateur" as User
+
+frame "Docker Host" {
+    frame "Bridge network : cinedock-network" {
+        component "Caddy\nservice: caddy\nports: 80/443" as Caddy
+        component "Frontend SPA\nReact + Vite\nservice: frontend\nport: 5173" as Frontend
+        component "Backend API\nDjango + DRF + Gunicorn\nservice: backend\nport: 8000" as Backend
+        database "PostgreSQL 16\nservice: db\nport: 5432" as DB
+    }
+
+    folder "Volumes" {
+        collections "caddy_data / caddy_config" as CaddyVolumes
+        collections "pgdata" as PgVolume
+    }
+
+    node ".env" as EnvFile
+}
+
+User --> Caddy : HTTPS
+Caddy --> Frontend : route /
+Caddy --> Backend : route /api
+Frontend --> Backend : fetch /api
+Backend --> DB : SQL 5432
+
+Caddy ..> CaddyVolumes : persistance
+DB ..> PgVolume : persistance
+Caddy .. EnvFile
+Backend .. EnvFile
+DB .. EnvFile
+
+note right of Backend
+    Entrypoint:
+    - migrate
+    - seed_movies
+    - seed_users
+    - Gunicorn 8000
+end note
+
+@enduml

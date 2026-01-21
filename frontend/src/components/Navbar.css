@@ -1,0 +1,56 @@
+/* Navbar container */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #0f172a; /* bleu nuit / cinéma */
+}
+
+/* Titre de l'app */
+nav h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+/* Supprime le style des liens */
+nav a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-button:hover {
+  background-color: #1e293b;
+}
+
+.navbar-user {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.navbar-logout {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #ef4444;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-logout:hover {
+  background-color: #dc2626;
+}

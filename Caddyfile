@@ -5,28 +5,36 @@
 
 # Local development configuration
 cinedock {
-  # Frontend
-  handle /api* {
-    # API requests go to backend
+  # Static files and media from backend
+  handle /media* {
     reverse_proxy backend:8000
   }
 
+  # API requests go to backend
+  handle /api* {
+    reverse_proxy backend:8000
+  }
+
+  # Everything else goes to frontend
   handle {
-    # Everything else goes to frontend
     reverse_proxy frontend:5173
   }
 }
 
 # Also support localhost for testing
 localhost:80 {
-  # Frontend
-  handle /api* {
-    # API requests go to backend
+  # Static files and media from backend
+  handle /media* {
     reverse_proxy backend:8000
   }
 
+  # API requests go to backend
+  handle /api* {
+    reverse_proxy backend:8000
+  }
+
+  # Everything else goes to frontend
   handle {
-    # Everything else goes to frontend
     reverse_proxy frontend:5173
   }
 }
@@ -34,14 +42,18 @@ localhost:80 {
 # Production configuration (commented out for local development)
 # Replace example.com with your actual domain
 # example.com {
-#   # Frontend
-#   handle /api* {
-#     # API requests go to backend
+#   # Static files and media from backend
+#   handle /media* {
 #     reverse_proxy backend:8000
 #   }
 #
+#   # API requests go to backend
+#   handle /api* {
+#     reverse_proxy backend:8000
+#   }
+#
+#   # Everything else goes to frontend
 #   handle {
-#     # Everything else goes to frontend
 #     reverse_proxy frontend:5173
 #   }
 #

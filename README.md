@@ -1,82 +1,108 @@
-# CineDock
+# Titre du Projet (ex: My Super DevOps Stack)
 
-Movie catalog backend (Django REST Framework) + placeholder Vite frontend, both wired through Docker.
+> **⚠️ MEMBRES DU GROUPE :**
+> - **RAGUIN Hugo** 
+> - **TALEB Amine** 
 
-## Tech Stack
+---
 
-- Django 6, DRF, Token auth
-- drf-spectacular for OpenAPI + Swagger/ReDoc
-- PostgreSQL 16 (via Docker) or SQLite locally
-- Gunicorn application server
+## 1. Présentation du Projet
+CineDock est une stack full‑Docker qui combine une API Django REST, un frontend React/Vite et un reverse proxy Caddy pour proposer un catalogue de films collaboratif. Les utilisateurs parcourent les sorties récentes, consultent des fiches détaillées et contribuent aux critiques grâce à une authentification par jeton. L’objectif est double : fournir une démo DevOps prête à déployer (infra, proxy, images dédiées) et illustrer un flux complet d’application web orientée contenu.
 
-## Prerequisites
-
-- Docker Desktop 4.x+ (Docker Compose v2)
-- Optional: Python 3.11+ and Node 18+ if you want to run services outside Docker
-
-## Docker Workflow
-
-```bash
-# 0. Configure environment
-cp .env.example .env  # then edit values as needed
-
-# 1. Build images (installs Python deps, prepares DB image)
-docker compose build
-
-# 2. Start stack (backend runs migrations automatically via entrypoint)
-docker compose up
-
-# 3. Follow logs
-docker compose logs -f backend
-
-# 4. Run admin commands (createsuperuser, shell, etc.)
-docker compose exec backend python manage.py createsuperuser
-```
-
-The backend listens on `http://localhost:8000` and connects to the `db` container through the `DATABASE_URL` defined in `.env`. The PostgreSQL container exposes `5432` for optional local access.
-
-### Useful Environment Overrides
-
-Set these before `docker compose up` (e.g., in PowerShell `$env:DJANGO_DEBUG=0`):
-
-- `DJANGO_SECRET_KEY` – overrides the dev key
-- `DJANGO_DEBUG=0` – disables Django debug mode
-- `DJANGO_COLLECTSTATIC=1` – runs `collectstatic` during startup
-
-## API Documentation
-
-Once the backend is running:
-
-- Swagger UI: <http://localhost:8000/api/docs/>
-- ReDoc: <http://localhost:8000/api/redoc/>
-- Raw schema: <http://localhost:8000/api/schema/>
+**Fonctionnalités principales :**
+* Catalogue de films enrichi avec Images, descriptions et métriques calculées (note moyenne, nombre d’avis).
+* Recherche plein texte et tri dynamique (popularité, meilleure note, ajouts récents) côté frontend pour explorer rapidement la base.
+* Authentification et inscription sécurisées (DRF Token), persistance locale du jeton et gestion de session dans le navigateur.
+* Espace critique communautaire : chaque membre peut noter/commenter un film, mettre à jour sa fiche et modifier son avis à tout moment.
 
 
 
-Configure `DATABASE_URL` to point at PostgreSQL if you do not want the default SQLite database.
+**Screenshot de l'application déployée** : ![](screenshot.jpg)
 
-## Running Tests
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+## 2. Architecture Technique
 
-```bash
-# Local virtualenv
-python manage.py test movies users -v 2
+### Schéma d'infrastructure
+Le diagramme PlantUML décrit l’enchaînement complet des containers : Cloudflare/Caddy reçoit les requêtes, route vers le frontend Vite ou le backend Django/DRF, qui lui-même dialogue avec PostgreSQL. Les volumes persistants (Caddy, base de données) et le réseau bridge `cinedock-network` sont explicitement modélisés.
 
-# Inside Docker
-docker compose exec backend python manage.py test -v 2
-```
+![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/theohugo/CineDock/master/architecture.puml)
 
-## Directory Highlights
+*(Note aux étudiants : Pour que l'image ci-dessus s'affiche :*
+1. *Créez un fichier `architecture.puml` à la racine de votre repo.*
+2. *Mettez votre code PlantUML dedans (le nôtre décrit les services `caddy`, `frontend`, `backend`, `db`).*
+3. *Vérifiez que l’URL pointe bien vers `https://raw.githubusercontent.com/theohugo/CineDock/master/architecture.puml` (branche par défaut `master`).*
+4. *Assurez-vous que votre repo est Public.)*
 
-- `backend/movies/` – movie CRUD API (model, serializer, viewset, tests)
-- `backend/users/` – auth endpoints (register/login/me) + token issuance
-- `frontend/` – placeholder Vite app (Dockerfile ready for future build)
+### Description des composants
+- **Caddy (reverse proxy)** : termine TLS (certificats auto gérés) et route `/` vers le frontend React, `/api` vers Django. Les données de config/certifs sont conservées dans `caddy_data` et `caddy_config`.
+- **Frontend (React + Vite)** : conteneur Node 20 Alpine servant l’interface SPA sur le port interne 5173 ; il communique avec l’API via `VITE_API_URL` et reste derrière Caddy.
+- **Backend (Django REST + Gunicorn)** : image Python 3.12 multi-étapes. Au démarrage, la commande applique les migrations et exécute les seeders `seed_movies` et `seed_users` avant de lancer Gunicorn sur 8000.
+- **Base de données (PostgreSQL 16)** : stocke les films, utilisateurs et critiques. Le volume nommé `pgdata` garantit la persistance. Un healthcheck `pg_isready` synchronise le démarrage du backend.
+- **Réseau & secrets** : tous les services (hors volumes) partagent `cinedock-network`. Les variables sensibles (`POSTGRES_*`, `DJANGO_SECRET_KEY`, `DATABASE_URL`) sont centralisées dans `.env` et injectées via `env_file` pour éviter les valeurs codées en dur.
 
-## Common Management Commands
+### Description des services
+| Service | Image Docker | Rôle | Port Interne |
+| :--- | :--- | :--- | :--- |
+| **Caddy (proxy)** | image custom basée sur `caddy:2` (cf. `caddy/Dockerfile`) | Termine TLS, sert les assets statiques et reverse-proxy `/` → frontend, `/api` → backend | 80 / 443 |
+| **Frontend React** | image custom basée sur `node:20-alpine` | SPA Vite, consomme l’API, expose le port dev 5173 (derrière Caddy en prod) | 5173 |
+| **Backend Django** | image custom basée sur `python:3.12-slim` | API REST + tâches seed/migrations, servie par Gunicorn | 8000 |
+| **PostgreSQL** | `postgres:16-alpine` | Base de données relationnelle persistée dans `pgdata` | 5432 |
 
-```bash
-python manage.py makemigrations
-python manage.py migrate
-python manage.py collectstatic
-python manage.py shell_plus  # if django-extensions installed later
-```
+## 3. Guide d'installation
 
+Pour lancer le projet localement :
+
+1.  Cloner le dépôt :
+    ```bash
+    git clone https://github.com/theohugo/CineDock.git
+    cd CineDock
+    ```
+
+2.  Préparer les variables d’environnement :
+    ```bash
+    cp .env.example .env
+    ```
+    Renseignez `POSTGRES_*`, `DJANGO_SECRET_KEY`, `DATABASE_URL`, `VITE_API_URL`, etc. (voir `docker-compose.yml`). Sous Windows PowerShell : `Copy-Item .env.example .env`.
+
+3.  Construire les images (optionnel mais recommandé en local) :
+    ```bash
+    docker compose build
+    ```
+
+4.  Démarrer la stack :
+    ```bash
+    docker compose up -d
+    ```
+
+5.  Vérifier les services :
+    * Frontend : http://localhost
+    * API healthcheck : http://localhost/api/health/
+    * Docs REDOC  : http://localhost/api/redoc/
+
+
+6.  Suivre les logs en cas de besoin :
+    ```bash
+    docker compose logs -f backend
+    ```
+
+## 4. Méthodologie & Transparence IA
+
+### Organisation
+Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Docker) tandis qu’Amine pilotait tout le frontend (React/Vite, UX). Nous avons travaillé en pair-programming ponctuel via appels Discord pour débloquer les points complexes et garder une vision commune.
+
+### Utilisation de l'IA (Copilot, ChatGPT, Cursor...)
+* **Outils utilisés :** GitHub Copilot, ChatGPT GPT-5.1 (mode Codex)
+* **Usage :**
+    * *Génération de code :* Copilot a proposé le squelette du `docker-compose.yml` et des composants React (forms de login, MovieCard) que nous avons ensuite adaptés.
+    * *Débuggage :* ChatGPT GPT-5.1 nous a aidés à corriger une mauvaise configuration Caddy (route `/api`) et à comprendre l’erreur de token DRF lors de la seed.
+    * *Documentation :* GPT-5.1 a servi à structurer les sections de ce README (présentation, architecture, méthodo) pendant que nous validions chaque élément.
+* **Apprentissage :** Nous avons systématiquement repris les suggestions IA pour les reformuler ou les tester. Cela nous a permis de vérifier la configuration réseau Docker, de comprendre comment DRF Spectacular expose Swagger/Redoc et de retenir les bonnes pratiques de seed custom dans Django.
+
+## 5. Difficultés rencontrées & Solutions
+* *Problème 1 :* La route d’authentification `/api/auth/login/` renvoyait systématiquement une erreur car les tokens DRF n’étaient pas générés en local.
+* *Solution :* Exécution des commandes `python manage.py migrate` puis `python manage.py seed_users` dans le conteneur backend pour créer les comptes démo et leurs tokens, ce qui a débloqué la connexion utilisateur.
+
+* *Problème 2 :* En lançant frontend et backend intégralement dans Docker, nous perdions le hot reload côté React.
+* *Solution :* Nous avons conservé le backend (Django + Postgres + Caddy) dans Docker mais lancé le frontend localement via `npm install && npm run dev`. Cela permet de garder les API accessibles via Caddy tout en bénéficiant du hot reload Vite.

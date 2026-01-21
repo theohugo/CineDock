@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE_URL = "http://localhost:8000"
+const DEFAULT_API_BASE_URL = "/api"
 
 const normalizeBaseUrl = (value) => {
   if (!value) {
@@ -8,7 +8,7 @@ const normalizeBaseUrl = (value) => {
 }
 
 const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_URL)
-const API_ROOT = `${API_BASE_URL}/api`
+const API_ROOT = `${API_BASE_URL}`
 
 const parseBody = (text) => {
   if (!text) {

@@ -57,9 +57,6 @@ function Home() {
             <Link to="/movies" className="hero-primary">
               Explorer le catalogue
             </Link>
-            <button type="button" className="hero-secondary">
-              Voir les tendances
-            </button>
           </div>
         </div>
 

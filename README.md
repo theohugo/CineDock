@@ -1,4 +1,4 @@
-# CineDOck
+# CineDock
 
 > **⚠️ MEMBRES DU GROUPE :**
 > - **RAGUIN Hugo** 

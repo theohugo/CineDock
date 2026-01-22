@@ -10,6 +10,7 @@ const AuthContext = createContext({
   token: null,
   isAuthenticating: false,
   login: async () => undefined,
+  register: async () => undefined,
   logout: () => undefined,
 })
 
@@ -79,6 +80,20 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
+  const register = useCallback(async (payload) => {
+    setIsAuthenticating(true)
+    try {
+      const data = await authApi.register(payload)
+      setToken(data.token)
+      setUser(data.user)
+      return data.user
+    } catch (error) {
+      throw error
+    } finally {
+      setIsAuthenticating(false)
+    }
+  }, [])
+
   const logout = useCallback(() => {
     setToken(null)
     setUser(null)
@@ -90,9 +105,10 @@ export const AuthProvider = ({ children }) => {
       token,
       isAuthenticating,
       login,
+      register,
       logout,
     }),
-    [user, token, isAuthenticating, login, logout]
+    [user, token, isAuthenticating, login, register, logout]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

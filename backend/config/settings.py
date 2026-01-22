@@ -58,6 +58,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -147,7 +150,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://frontend:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1",".trycloudflare.com"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.trycloudflare.com",
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

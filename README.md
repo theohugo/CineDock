@@ -28,12 +28,13 @@ CineDock est une stack full‑Docker qui combine une API Django REST, un fronten
 ## 2. Architecture Technique
 
 ### Schéma d'infrastructure
-Le diagramme PlantUML décrit l’enchaînement complet des containers : Cloudflare/Caddy reçoit les requêtes, route vers le frontend Vite ou le backend Django/DRF, qui lui-même dialogue avec PostgreSQL. Les volumes persistants (Caddy, base de données) et le réseau bridge `cinedock-network` sont explicitement modélisés.
+Le diagramme PlantUML décrit l’enchaînement complet des containers : un tunnel Cloudflare Zero Trust (cloudflared) termine les connexions publiques avant de les transmettre à Caddy, qui route ensuite vers le frontend Vite ou le backend Django/DRF, lesquels dialoguent avec PostgreSQL. Les volumes persistants (Caddy, base de données) et le réseau bridge `cinedock-network` sont explicitement modélisés.
 
 ![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/theohugo/CineDock/master/architecture.puml)
 
 
 ### Description des composants
+- **Cloudflare Tunnel (cloudflared)** : sécurise l’exposition publique via un tunnel Zero Trust géré par Cloudflare et forward les requêtes HTTPS vers le service Caddy sans ouvrir les ports 80/443 de l’hôte.
 - **Caddy (reverse proxy)** : termine TLS (certificats auto gérés) et route `/` vers le frontend React, `/api` vers Django. Les données de config/certifs sont conservées dans `caddy_data` et `caddy_config`.
 - **Frontend (React + Vite)** : conteneur Node 20 Alpine servant l’interface SPA sur le port interne 5173 ; il communique avec l’API via `VITE_API_URL` et reste derrière Caddy.
 - **Backend (Django REST + Gunicorn)** : image Python 3.12 multi-étapes. Au démarrage, la commande applique les migrations et exécute les seeders `seed_movies` et `seed_users` avant de lancer Gunicorn sur 8000.
@@ -44,6 +45,7 @@ Le diagramme PlantUML décrit l’enchaînement complet des containers : Cloudfl
 ### Description des services
 | Service | Image Docker | Rôle | Port Interne |
 | :--- | :--- | :--- | :--- |
+| **Cloudflare Tunnel** | `cloudflare/cloudflared:latest` | Maintient un tunnel Cloudflare Zero Trust et forward 443 -> Caddy (port 80 interne) | Virtuel |
 | **Caddy (proxy)** | image custom basée sur `caddy:2` (cf. `caddy/Dockerfile`) | Termine TLS, sert les assets statiques et reverse-proxy `/` → frontend, `/api` → backend | 80 / 443 |
 | **Frontend React** | image custom basée sur `node:20-alpine` | SPA Vite, consomme l’API, expose le port dev 5173 (derrière Caddy en prod) | 5173 |
 | **Backend Django** | image custom basée sur `python:3.12-slim` | API REST + tâches seed/migrations, servie par Gunicorn | 8000 |

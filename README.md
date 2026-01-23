@@ -79,13 +79,21 @@ Pour lancer le projet localement :
     docker compose up -d
     ```
 
-5.  Vérifier les services :
+5.  Exposer l’instance via Cloudflare Tunnel :
+    ```bash
+    cloudflared tunnel --url http://localhost:80
+    ```
+    Cette commande établit un tunnel Zero Trust temporaire vers votre instance locale et fournit l’URL publique affichée par `cloudflared`. 
+
+![alt text](image-6.png)
+![alt text](image-7.png)
+
+6.  Vérifier les services :
     * Frontend : http://localhost
     * API healthcheck : http://localhost/api/health/
     * Docs REDOC  : http://localhost/api/redoc/
 
-
-6.  Suivre les logs en cas de besoin :
+7.  Suivre les logs en cas de besoin :
     ```bash
     docker compose logs -f backend
     ```

@@ -79,13 +79,21 @@ Pour lancer le projet localement :
     docker compose up -d
     ```
 
-5.  Vérifier les services :
+5.  Exposer l’instance via Cloudflare Tunnel :
+    ```bash
+    cloudflared tunnel --url http://localhost:80
+    ```
+    Cette commande établit un tunnel Zero Trust temporaire vers votre instance locale et fournit l’URL publique affichée par `cloudflared`. 
+
+![alt text](image-6.png)
+![alt text](image-7.png)
+
+6.  Vérifier les services :
     * Frontend : http://localhost
     * API healthcheck : http://localhost/api/health/
     * Docs REDOC  : http://localhost/api/redoc/
 
-
-6.  Suivre les logs en cas de besoin :
+7.  Suivre les logs en cas de besoin :
     ```bash
     docker compose logs -f backend
     ```
@@ -93,7 +101,7 @@ Pour lancer le projet localement :
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
-Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Docker) tandis qu’Amine pilotait tout le frontend (React/Vite, UX). Nous avons travaillé en pair-programming ponctuel via appels Discord pour débloquer les points complexes et garder une vision commune.
+Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Docker, écriture du ReadMe, Refonte graphique du Frontend) tandis qu’Amine pilotait tout le frontend (React/Vite, UX) ainsi que la configuration Cloudflare Tunnel et Caddy. Nous avons travaillé en pair-programming ponctuel via appels Discord pour débloquer les points complexes et garder une vision commune.
 
 ### Utilisation de l'IA (Copilot, ChatGPT, Cursor...)
 * **Outils utilisés :** GitHub Copilot, ChatGPT GPT-5.1 (mode Codex)

@@ -101,7 +101,7 @@ Pour lancer le projet localement :
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
-Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Docker) tandis qu’Amine pilotait tout le frontend (React/Vite, UX). Nous avons travaillé en pair-programming ponctuel via appels Discord pour débloquer les points complexes et garder une vision commune.
+Répartition claire : Hugo a pris le backend (Django, seeders, orchestration Docker, écriture du ReadMe, Refonte graphique du Frontend) tandis qu’Amine pilotait tout le frontend (React/Vite, UX) ainsi que la configuration Cloudflare Tunnel et Caddy. Nous avons travaillé en pair-programming ponctuel via appels Discord pour débloquer les points complexes et garder une vision commune.
 
 ### Utilisation de l'IA (Copilot, ChatGPT, Cursor...)
 * **Outils utilisés :** GitHub Copilot, ChatGPT GPT-5.1 (mode Codex)

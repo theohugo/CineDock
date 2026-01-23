@@ -1,0 +1,156 @@
+.register-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 32px;
+	margin: 60px auto;
+	align-items: stretch;
+}
+
+.register-hero {
+	padding: 32px;
+	border-radius: 18px;
+	background: radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.3), transparent 50%),
+		linear-gradient(135deg, rgba(2, 6, 23, 0.8), rgba(15, 23, 42, 0.95));
+	box-shadow: 0 30px 80px rgba(15, 23, 42, 0.45);
+}
+
+.register-super-title {
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	font-size: 12px;
+	color: #38bdf8;
+	margin-bottom: 12px;
+}
+
+.register-hero h1 {
+	font-size: 36px;
+	line-height: 1.2;
+	margin-bottom: 16px;
+}
+
+.register-description {
+	font-size: 16px;
+	color: #cbd5f5;
+	margin-bottom: 24px;
+}
+
+.register-perks {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.register-perks li {
+	padding: 12px 16px;
+	border-radius: 12px;
+	background-color: rgba(15, 23, 42, 0.65);
+	border: 1px solid rgba(56, 189, 248, 0.2);
+	backdrop-filter: blur(12px);
+}
+
+.register-card {
+	padding: 36px;
+	border-radius: 18px;
+	background-color: #0f172a;
+	box-shadow: 0 30px 80px rgba(2, 6, 23, 0.65);
+}
+
+.register-card h2 {
+	margin-bottom: 4px;
+}
+
+.register-subtitle {
+	color: #94a3b8;
+	margin-bottom: 24px;
+}
+
+.register-hint {
+	margin-top: -16px;
+	margin-bottom: 24px;
+	color: #cbd5f5;
+	font-size: 13px;
+	opacity: 0.85;
+}
+
+.register-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.register-name-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 16px;
+}
+
+.register-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 14px;
+	color: #cbd5f5;
+}
+
+.register-form input {
+	padding: 12px;
+	border-radius: 10px;
+	border: 1px solid #1f2937;
+	background-color: #030712;
+	color: #f8fafc;
+	transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.register-form input:focus {
+	border-color: #38bdf8;
+	transform: translateY(-1px);
+}
+
+.register-form input:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.register-form button {
+	margin-top: 8px;
+	padding: 14px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #f97316, #fb7185 45%, #38bdf8);
+	color: #020617;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.register-form button:disabled {
+	opacity: 0.7;
+	box-shadow: none;
+	cursor: not-allowed;
+}
+
+.register-form button:not(:disabled):hover {
+	transform: translateY(-3px);
+	box-shadow: 0 20px 45px rgba(251, 113, 133, 0.35);
+}
+
+.register-error {
+	color: #f87171;
+	font-size: 14px;
+	background-color: rgba(248, 113, 113, 0.15);
+	border: 1px solid rgba(248, 113, 113, 0.4);
+	padding: 10px 14px;
+	border-radius: 10px;
+}
+
+@media (max-width: 640px) {
+	.register-card,
+	.register-hero {
+		padding: 24px;
+	}
+
+	.register-hero h1 {
+		font-size: 28px;
+	}
+}

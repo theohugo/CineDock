@@ -1,14 +1,16 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Copy package metadata first to leverage Docker layer caching
 COPY package*.json ./
+RUN npm install
 
-# Bring in the rest of the source code (overridden by volume mounts in dev)
 COPY . .
+RUN npm run build
 
-EXPOSE 5173
+# Image finale minimale
+FROM nginx:alpine
 
-# Install dependencies at runtime (handles bind mounts) then start Vite dev server
-CMD ["sh", "-c", "npm install && npm run dev -- --host 0.0.0.0 --port 5173"]
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80

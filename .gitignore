@@ -7,3 +7,9 @@ backend/db.sqlite3
 frontend/node_modules/
 
 backend/media/movies/
+!backend/media/movies/
+!backend/media/movies/batman.webp
+!backend/media/movies/fightclub.webp
+!backend/media/movies/forrestgump.webp
+!backend/media/movies/inception.webp
+!backend/media/movies/interstallar.webp

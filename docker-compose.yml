@@ -49,11 +49,14 @@ services:
       DJANGO_DEBUG: ${DJANGO_DEBUG}
       DATABASE_URL: ${DATABASE_URL}
       DJANGO_COLLECTSTATIC: ${DJANGO_COLLECTSTATIC}
+      REDIS_URL: ${REDIS_URL}
     volumes:
       - ./backend:/app
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - cinedock-network
 
@@ -64,10 +67,20 @@ services:
     networks:
       - cinedock-network
 
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    networks:
+      - cinedock-network
+
 volumes:
   pgdata:
   caddy_data:
   caddy_config:
+  redis_data:
 
 networks:
   cinedock-network:

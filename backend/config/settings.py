@@ -150,7 +150,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://frontend:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1",".trycloudflare.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".trycloudflare.com"]
 CSRF_TRUSTED_ORIGINS = [
     "https://*.trycloudflare.com",
 ]
@@ -163,6 +163,23 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+REDIS_URL = os.getenv("REDIS_URL") or "redis://redis:6379/1"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,
+        },
+        "KEY_PREFIX": "cinedock",
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "CineDock API",

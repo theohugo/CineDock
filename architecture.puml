@@ -7,6 +7,7 @@ skinparam defaultTextAlignment center
 title Infrastructure CineDock
 
 actor "Utilisateur" as User
+cloud "Cloudflare Tunnel\ncloudflared" as Cloudflare
 
 frame "Docker Host" {
     frame "Bridge network : cinedock-network" {
@@ -24,7 +25,8 @@ frame "Docker Host" {
     node ".env" as EnvFile
 }
 
-User --> Caddy : HTTPS
+User --> Cloudflare : HTTPS (public)
+Cloudflare --> Caddy : tunnel 443->80
 Caddy --> Frontend : route /
 Caddy --> Backend : route /api
 Frontend --> Backend : fetch /api
@@ -32,9 +34,11 @@ Backend --> DB : SQL 5432
 
 Caddy ..> CaddyVolumes : persistance
 DB ..> PgVolume : persistance
+Caddy .. Cloudflare : auth token
 Caddy .. EnvFile
 Backend .. EnvFile
 DB .. EnvFile
+Cloudflare .. EnvFile
 
 note right of Backend
     Entrypoint:

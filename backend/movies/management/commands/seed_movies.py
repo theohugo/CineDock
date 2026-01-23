@@ -12,6 +12,7 @@ SEED_MOVIES = [
             "Un voleur spécialisé dans l'extraction de rêves se voit confier une mission"
             " presque impossible : implanter une idée dans l'esprit de sa cible."
         ),
+        "image": "movies/inception.webp",
     },
     {
         "id": "cf48a75a-56d7-4c77-9a8e-5fb5396ac7cc",
@@ -20,6 +21,7 @@ SEED_MOVIES = [
             "Un ancien pilote de la NASA mène une expédition à travers un trou de ver pour"
             " trouver une nouvelle planète habitable et sauver l'humanité."
         ),
+        "image": "movies/interstallar.webp",
     },
     {
         "id": "6f79de8d-8a89-4b48-9dd6-527969b5cb1c",
@@ -28,6 +30,7 @@ SEED_MOVIES = [
             "Batman affronte le Joker, un criminel prêt à plonger Gotham dans le chaos"
             " pour mettre à l'épreuve la morale de ses habitants."
         ),
+        "image": "movies/batman.webp",
     },
     {
         "id": "20cdb406-a148-430b-8edf-d3da9048c117",
@@ -36,6 +39,7 @@ SEED_MOVIES = [
             "Un employé insomniaque rencontre un vendeur de savon charismatique avec qui"
             " il fonde un club de combat clandestin."
         ),
+        "image": "movies/fightclub.webp",
     },
     {
         "id": "06a68f8b-0939-4cab-9b22-321f661d6d76",
@@ -44,6 +48,7 @@ SEED_MOVIES = [
             "Le récit de la vie extraordinaire d'un homme simple qui traverse les grands"
             " événements de l'histoire américaine."
         ),
+        "image": "movies/forrestgump.webp",
     },
 ]
 
